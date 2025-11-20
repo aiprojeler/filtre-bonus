@@ -6,9 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 
   body {
     font-family: system-ui, sans-serif;
@@ -77,29 +75,21 @@
   }
 
   .bonus-left {
-    min-width: 72px;
+    min-width: 64px;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
+    justify-content: center;
   }
 
-  .site-chip {
-    padding: 5px 10px;
-    border-radius: 999px;
+  .site-logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 12px;
     background: #f3f4f6;
-    font-size: 11px;
-    font-weight: 600;
+    padding: 4px;
   }
 
-  .site-short {
-    font-size: 11px;
-    color: #777;
-  }
-
-  .bonus-center {
-    flex: 1;
-  }
+  .bonus-center { flex: 1; }
 
   .bonus-title {
     font-size: 14px;
@@ -161,7 +151,6 @@
     }
     .bonus-right {
       width: 100%;
-      text-align: left;
       justify-content: flex-start;
     }
     .btn {
@@ -191,154 +180,172 @@
 </div>
 
 <div id="bonus-wrapper"></div>
-<div id="empty" class="empty" style="display:none;">
-  Bu filtreye uygun bonus bulunamadı.
-</div>
+<div id="empty" class="empty" style="display:none;">Bu filtreye uygun bonus bulunamadı.</div>
 
 <script>
-  const TAG_LABELS = {
-    "yatirim-sartsiz": "Yatırım şartsız",
-    "cevrim-sartsiz": "Çevrim şartsız",
-    "dusuk-cevrim": "Düşük çevrimli",
-    "hosgeldin": "Hoş geldin",
-    "freebet": "Freebet",
-    "freespin": "Freespin",
-    "deneme-bonusu": "Deneme bonusu",
-    "kayip-bonusu": "Kayıp bonusu"
-  };
 
-  // DEMO BONUS VERİLERİ
-  const bonuses = [
-    {
-      site: "Betvino",
-      short: "BT",
-      title: "%100 Hoş Geldin Bonusu · 2.000 TL'ye kadar",
-      detail: "Spor bahislerine özel, düşük çevrimli hoş geldin bonusu.",
-      max: "Maks. 2.000 TL",
-      url: "#",
-      tags: ["hosgeldin", "dusuk-cevrim"]
-    },
-    {
-      site: "Old Casino",
-      short: "OC",
-      title: "50 TL Yatırım Şartsız Deneme Bonusu",
-      detail: "Yeni üyelere, herhangi bir yatırım şartı olmadan tanımlanır.",
-      max: "Sabit 50 TL",
-      url: "#",
-      tags: ["yatirim-sartsiz", "deneme-bonusu", "cevrim-sartsiz"]
-    },
-    {
-      site: "Betosfer",
-      short: "BO",
-      title: "%25 Günlük Kayıp Bonusu",
-      detail: "Günün zararına göre hesabına otomatik iade yapılır.",
-      max: "Maks. 1.000 TL",
-      url: "#",
-      tags: ["kayip-bonusu", "dusuk-cevrim"]
-    },
-    {
-      site: "Restbet",
-      short: "RB",
-      title: "100 Freespin Hoş Geldin Paketi",
-      detail: "Seçili slot oyunlarında kullanılabilen freespin paketi.",
-      max: "100 Freespin",
-      url: "#",
-      tags: ["freespin", "hosgeldin"]
-    },
-    {
-      site: "Markaj",
-      short: "MK",
-      title: "50 TL Freebet · Derbi Özel",
-      detail: "Büyük maçlara özel kayıpsız freebet fırsatı.",
-      max: "Sabit 50 TL",
-      url: "#",
-      tags: ["freebet", "dusuk-cevrim"]
-    },
-    {
-      site: "Verabet",
-      short: "VR",
-      title: "%15 Günlük Çevrim Şartsız Bonus",
-      detail: "Tüm spor yatırımlarına çevrim şartsız nakit iade.",
-      max: "Maks. 750 TL",
-      url: "#",
-      tags: ["cevrim-sartsiz", "kayip-bonusu"]
-    },
-    {
-      site: "Old Casino",
-      short: "OC",
-      title: "20 Freespin Yatırım Şartsız",
-      detail: "Yeni slotları denemek için ücretsiz freespin.",
-      max: "20 Freespin",
-      url: "#",
-      tags: ["freespin", "yatirim-sartsiz", "deneme-bonusu"]
-    }
-  ];
+const LOGO_BASE = "https://raw.githubusercontent.com/thexprojects/filtre-bonus/main/logos/";
 
-  let currentFilter = "tum";
+const TAG_LABELS = {
+  "yatirim-sartsiz": "Yatırım şartsız",
+  "cevrim-sartsiz": "Çevrim şartsız",
+  "dusuk-cevrim": "Düşük çevrimli",
+  "hosgeldin": "Hoş geldin",
+  "freebet": "Freebet",
+  "freespin": "Freespin",
+  "deneme-bonusu": "Deneme bonusu",
+  "kayip-bonusu": "Kayıp bonusu"
+};
 
-  function renderBonuses() {
-    const wrapper = document.getElementById("bonus-wrapper");
-    const empty = document.getElementById("empty");
-    wrapper.innerHTML = "";
+/* BONUS VERİLERİ — Tamamı senin verdiğin şekilde */
+const bonuses = [
 
-    const filtered = bonuses.filter(b =>
-      currentFilter === "tum" ? true : b.tags.includes(currentFilter)
-    );
+  /* 1XBET */
+  {
+    site: "1xbet",
+    title: "55.000 TL + 150 FS Hoş Geldin Bonusu",
+    detail: "İlk 4 para yatırma işleminize özel teklif!",
+    url: "https://1xbet.com",
+    tags: ["hosgeldin", "dusuk-cevrim"]
+  },
+  {
+    site: "1xbet",
+    title: "%25 Net Kayıp Bonusu",
+    detail: "Tüm alanlara baremsiz kayıp bonusu ayrıcalığı!",
+    url: "https://1xbet.com",
+    tags: ["kayip-bonusu", "cevrim-sartsiz"]
+  },
 
-    if (!filtered.length) {
-      empty.style.display = "block";
-      return;
-    } else {
-      empty.style.display = "none";
-    }
+  /* CASINOMHUB */
+  {
+    site: "casinohub",
+    title: "%375 Hoş Geldin Bonusu",
+    detail: "Islak başlangıçlar seni bekliyor!",
+    url: "https://casinomhub.com",
+    tags: ["hosgeldin", "dusuk-cevrim"]
+  },
+  {
+    site: "casinohub",
+    title: "%30'a varan Kayıp Bonusu",
+    detail: "Yüksek oranlı kayıp bonusu ile masadan erken kalkmak yok!",
+    url: "https://casinomhub.com",
+    tags: ["kayip-bonusu", "cevrim-sartsiz"]
+  },
 
-    const section = document.createElement("div");
-    section.className = "section";
+  /* LIGOBET */
+  {
+    site: "ligobet",
+    title: "750 TL Deneme Bonusu",
+    detail: "Ücretsiz başlangıç teklifi ile hemen oyna!",
+    url: "https://ligobet.com",
+    tags: ["cevrim-sartsiz", "deneme-bonusu"]
+  },
 
-    filtered.forEach(b => {
-      const item = document.createElement("div");
-      item.className = "bonus-item";
+  /* MAXWIN */
+  {
+    site: "maxwin",
+    title: "Üye Olan Herkese 300 TL Hediye",
+    detail: "Tüm alanlarda geçerli nakit bonus!",
+    url: "https://maxwin.com",
+    tags: ["yatirim-sartsiz", "cevrim-sartsiz", "deneme-bonusu"]
+  },
 
-      const tagsHtml = b.tags
-        .map(t => {
-          const label = TAG_LABELS[t] || t;
-          return `<span class="tag-pill">${label}</span>`;
-        })
-        .join("");
+  /* MOBILBAHIS */
+  {
+    site: "mobilbahis",
+    title: "Yeni Üyelere 100 Freespin",
+    detail: "Ücretsiz çevirme hakkı ile kazan!",
+    url: "https://mobilbahis.com",
+    tags: ["yatirim-sartsiz", "freespin"]
+  },
 
-      item.innerHTML = `
-        <div class="bonus-left">
-          <div class="site-chip">${b.site}</div>
-          <div class="site-short">${b.short}</div>
-        </div>
-        <div class="bonus-center">
-          <div class="bonus-title">${b.title}</div>
-          <div class="bonus-detail">${b.detail}</div>
-          <div class="bonus-tags">${tagsHtml}</div>
-        </div>
-        <div class="bonus-right">
-          <button class="btn" onclick="window.location.href='${b.url}'">Sitede Kullan</button>
-        </div>
-      `;
+  /* OTOBET */
+  {
+    site: "otobet",
+    title: "800 TL Deneme Bonusu",
+    detail: "Nakit bonus anında hesabında!",
+    url: "https://otobet.com",
+    tags: ["yatirim-sartsiz", "cevrim-sartsiz", "deneme-bonusu"]
+  },
 
-      section.appendChild(item);
-    });
+  /* ROCUBET */
+  {
+    site: "rokubet",
+    title: "Herkese 335 Freespin Hediye",
+    detail: "İlk üyeliğine özel bedava çevir!",
+    url: "https://rokubet.com",
+    tags: ["yatirim-sartsiz", "freespin"]
+  },
 
-    wrapper.appendChild(section);
+  /* TIPOBET */
+  {
+    site: "tipobet",
+    title: "Yeni Üyelere 750 TL Freebet",
+    detail: "Yapacağın ilk kupon ücretsiz!",
+    url: "https://tipobet.com",
+    tags: ["freebet", "yatirim-sartsiz"]
   }
+];
 
-  // Filtre tıklamaları
-  document.querySelectorAll(".filter-pill").forEach(pill => {
-    pill.addEventListener("click", () => {
-      document.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
-      pill.classList.add("active");
-      currentFilter = pill.dataset.filter;
-      renderBonuses();
-    });
+let currentFilter = "tum";
+
+function renderBonuses() {
+  const wrapper = document.getElementById("bonus-wrapper");
+  const empty = document.getElementById("empty");
+  wrapper.innerHTML = "";
+
+  const filtered = bonuses.filter(b =>
+    currentFilter === "tum" ? true : b.tags.includes(currentFilter)
+  );
+
+  empty.style.display = filtered.length ? "none" : "block";
+
+  const section = document.createElement("div");
+  section.className = "section";
+
+  filtered.forEach(b => {
+    const logoUrl = LOGO_BASE + b.site.toLowerCase() + ".png";
+
+    const tagsHtml = b.tags
+      .map(t => `<span class="tag-pill">${TAG_LABELS[t]}</span>`)
+      .join("");
+
+    const item = document.createElement("div");
+    item.className = "bonus-item";
+
+    item.innerHTML = `
+      <div class="bonus-left">
+        <img class="site-logo" src="${logoUrl}" alt="${b.site}">
+      </div>
+
+      <div class="bonus-center">
+        <div class="bonus-title">${b.title}</div>
+        <div class="bonus-detail">${b.detail}</div>
+        <div class="bonus-tags">${tagsHtml}</div>
+      </div>
+
+      <div class="bonus-right">
+        <button class="btn" onclick="window.location.href='${b.url}'">Sitede Kullan</button>
+      </div>
+    `;
+
+    section.appendChild(item);
   });
 
-  // İlk açılış
-  renderBonuses();
+  wrapper.appendChild(section);
+}
+
+/* Filtre tıklamaları */
+document.querySelectorAll(".filter-pill").forEach(pill => {
+  pill.addEventListener("click", () => {
+    document.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
+    pill.classList.add("active");
+    currentFilter = pill.dataset.filter;
+    renderBonuses();
+  });
+});
+
+renderBonuses();
 </script>
 
 </body>
