@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Günlük Bonuslar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: system-ui, sans-serif;
+    margin: 0;
+    padding: 16px;
+    background: #f6f7f9;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 14px;
+  }
+
+  /* FİLTRELER */
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .filter-pill {
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .filter-pill.active {
+    background: #16a34a;
+    color: #fff;
+    border-color: #16a34a;
+  }
+
+  /* ANA KART */
+  .section {
+    background: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.06);
+  }
+
+  /* BONUS KART */
+  .bonus-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  .bonus-item:last-child {
+    border-bottom: none;
+  }
+
+  .bonus-left {
+    min-width: 72px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .site-chip {
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: #f3f4f6;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .site-short {
+    font-size: 11px;
+    color: #777;
+  }
+
+  .bonus-center {
+    flex: 1;
+  }
+
+  .bonus-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    color: #111;
+  }
+
+  .bonus-detail {
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  .bonus-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .tag-pill {
+    font-size: 10px;
+    padding: 3px 7px;
+    border-radius: 999px;
+    background: #f3f4f6;
+    color: #374151;
+  }
+
+  .bonus-right {
+    min-width: 110px;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn {
+    background: #16a34a;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .empty {
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .bonus-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .bonus-right {
+      width: 100%;
+      text-align: left;
+      justify-content: flex-start;
+    }
+    .btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<h1>Günlük Bonuslar</h1>
+<div class="subtitle">Filtrele · Sadece ilgilendiğin bonusları listele</div>
+
+<!-- FİLTRELER -->
+<div class="filter-row">
+  <div class="filter-pill active" data-filter="tum">Tümü</div>
+  <div class="filter-pill" data-filter="yatirim-sartsiz">Yatırım şartsız</div>
+  <div class="filter-pill" data-filter="cevrim-sartsiz">Çevrim şartsız</div>
+  <div class="filter-pill" data-filter="dusuk-cevrim">Düşük çevrimli</div>
+  <div class="filter-pill" data-filter="hosgeldin">Hoş geldin bonusu</div>
+  <div class="filter-pill" data-filter="freebet">Freebet</div>
+  <div class="filter-pill" data-filter="freespin">Freespin</div>
+  <div class="filter-pill" data-filter="deneme-bonusu">Deneme bonusu</div>
+  <div class="filter-pill" data-filter="kayip-bonusu">Kayıp bonusu</div>
+</div>
+
+<div id="bonus-wrapper"></div>
+<div id="empty" class="empty" style="display:none;">
+  Bu filtreye uygun bonus bulunamadı.
+</div>
+
+<script>
+  const TAG_LABELS = {
+    "yatirim-sartsiz": "Yatırım şartsız",
+    "cevrim-sartsiz": "Çevrim şartsız",
+    "dusuk-cevrim": "Düşük çevrimli",
+    "hosgeldin": "Hoş geldin",
+    "freebet": "Freebet",
+    "freespin": "Freespin",
+    "deneme-bonusu": "Deneme bonusu",
+    "kayip-bonusu": "Kayıp bonusu"
+  };
+
+  // DEMO BONUS VERİLERİ
+  const bonuses = [
+    {
+      site: "Betvino",
+      short: "BT",
+      title: "%100 Hoş Geldin Bonusu · 2.000 TL'ye kadar",
+      detail: "Spor bahislerine özel, düşük çevrimli hoş geldin bonusu.",
+      max: "Maks. 2.000 TL",
+      url: "#",
+      tags: ["hosgeldin", "dusuk-cevrim"]
+    },
+    {
+      site: "Old Casino",
+      short: "OC",
+      title: "50 TL Yatırım Şartsız Deneme Bonusu",
+      detail: "Yeni üyelere, herhangi bir yatırım şartı olmadan tanımlanır.",
+      max: "Sabit 50 TL",
+      url: "#",
+      tags: ["yatirim-sartsiz", "deneme-bonusu", "cevrim-sartsiz"]
+    },
+    {
+      site: "Betosfer",
+      short: "BO",
+      title: "%25 Günlük Kayıp Bonusu",
+      detail: "Günün zararına göre hesabına otomatik iade yapılır.",
+      max: "Maks. 1.000 TL",
+      url: "#",
+      tags: ["kayip-bonusu", "dusuk-cevrim"]
+    },
+    {
+      site: "Restbet",
+      short: "RB",
+      title: "100 Freespin Hoş Geldin Paketi",
+      detail: "Seçili slot oyunlarında kullanılabilen freespin paketi.",
+      max: "100 Freespin",
+      url: "#",
+      tags: ["freespin", "hosgeldin"]
+    },
+    {
+      site: "Markaj",
+      short: "MK",
+      title: "50 TL Freebet · Derbi Özel",
+      detail: "Büyük maçlara özel kayıpsız freebet fırsatı.",
+      max: "Sabit 50 TL",
+      url: "#",
+      tags: ["freebet", "dusuk-cevrim"]
+    },
+    {
+      site: "Verabet",
+      short: "VR",
+      title: "%15 Günlük Çevrim Şartsız Bonus",
+      detail: "Tüm spor yatırımlarına çevrim şartsız nakit iade.",
+      max: "Maks. 750 TL",
+      url: "#",
+      tags: ["cevrim-sartsiz", "kayip-bonusu"]
+    },
+    {
+      site: "Old Casino",
+      short: "OC",
+      title: "20 Freespin Yatırım Şartsız",
+      detail: "Yeni slotları denemek için ücretsiz freespin.",
+      max: "20 Freespin",
+      url: "#",
+      tags: ["freespin", "yatirim-sartsiz", "deneme-bonusu"]
+    }
+  ];
+
+  let currentFilter = "tum";
+
+  function renderBonuses() {
+    const wrapper = document.getElementById("bonus-wrapper");
+    const empty = document.getElementById("empty");
+    wrapper.innerHTML = "";
+
+    const filtered = bonuses.filter(b =>
+      currentFilter === "tum" ? true : b.tags.includes(currentFilter)
+    );
+
+    if (!filtered.length) {
+      empty.style.display = "block";
+      return;
+    } else {
+      empty.style.display = "none";
+    }
+
+    const section = document.createElement("div");
+    section.className = "section";
+
+    filtered.forEach(b => {
+      const item = document.createElement("div");
+      item.className = "bonus-item";
+
+      const tagsHtml = b.tags
+        .map(t => {
+          const label = TAG_LABELS[t] || t;
+          return `<span class="tag-pill">${label}</span>`;
+        })
+        .join("");
+
+      item.innerHTML = `
+        <div class="bonus-left">
+          <div class="site-chip">${b.site}</div>
+          <div class="site-short">${b.short}</div>
+        </div>
+        <div class="bonus-center">
+          <div class="bonus-title">${b.title}</div>
+          <div class="bonus-detail">${b.detail}</div>
+          <div class="bonus-tags">${tagsHtml}</div>
+        </div>
+        <div class="bonus-right">
+          <button class="btn" onclick="window.location.href='${b.url}'">Sitede Kullan</button>
+        </div>
+      `;
+
+      section.appendChild(item);
+    });
+
+    wrapper.appendChild(section);
+  }
+
+  // Filtre tıklamaları
+  document.querySelectorAll(".filter-pill").forEach(pill => {
+    pill.addEventListener("click", () => {
+      document.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+      currentFilter = pill.dataset.filter;
+      renderBonuses();
+    });
+  });
+
+  // İlk açılış
+  renderBonuses();
+</script>
+
+</body>
+</html>
