@@ -62,12 +62,12 @@
     box-shadow: 0 2px 6px rgba(0,0,0,.06);
   }
 
-  /* BONUS KART – ÜSTTE LOGO+METİN, ALTA CTA */
+  /* BONUS KART (MASAÜSTÜ) */
   .bonus-item {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 12px 0;
+    gap: 10px;
+    padding: 14px 0;
     border-bottom: 1px solid #ddd;
   }
   .bonus-item:last-child {
@@ -77,10 +77,9 @@
   .bonus-top {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
   }
 
-  /* LOGO ALANI – GENİŞ, YATAY, PREMIUM */
   .bonus-left {
     min-width: 160px;
     display: flex;
@@ -98,21 +97,19 @@
     display: block;
   }
 
-  .bonus-center {
-    flex: 1;
-  }
+  .bonus-center { flex: 1; }
 
   .bonus-title {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
     color: #111;
   }
 
   .bonus-detail {
     color: #666;
     font-size: 12px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   .bonus-tags {
@@ -152,22 +149,42 @@
     margin-top: 16px;
   }
 
+  /* ----------------------------- */
+  /*        MOBİL OPTİMİZASYON     */
+  /* ----------------------------- */
   @media (max-width: 600px) {
+
+    /* LOGO + METİN ÜSTTE */
     .bonus-top {
+      flex-direction: column;
       align-items: flex-start;
+      width: 100%;
+      gap: 10px;
     }
+
     .bonus-left {
-      min-width: 140px;
+      width: 100%;
       justify-content: flex-start;
-      margin-bottom: 2px;
     }
+
+    .site-logo {
+      width: 160px;
+      height: auto;
+      padding: 8px 16px;
+    }
+
+    /* CTA ALTA, TAM GENİŞLİK */
     .bonus-bottom {
       width: 100%;
+      margin-top: 4px;
       text-align: left;
     }
+
     .btn {
       width: 100%;
+      padding: 12px;
       text-align: center;
+      font-size: 13px;
     }
   }
 </style>
@@ -206,7 +223,7 @@ const TAG_LABELS = {
   "kayip-bonusu": "Kayıp bonusu"
 };
 
-/* BONUS VERİLERİ – logoUrl alanları RAW linklerle dolu */
+/* BONUS VERİLERİ */
 const bonuses = [
   /* 1XBET */
   {
@@ -337,12 +354,14 @@ function renderBonuses() {
                alt="${b.site}"
                onerror="this.style.visibility='hidden';">
         </div>
+
         <div class="bonus-center">
           <div class="bonus-title">${b.title}</div>
           <div class="bonus-detail">${b.detail}</div>
           <div class="bonus-tags">${tagsHtml}</div>
         </div>
       </div>
+
       <div class="bonus-bottom">
         <button class="btn" onclick="window.location.href='${b.url}'">Sitede Kullan</button>
       </div>
