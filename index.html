@@ -15,6 +15,12 @@
     background: #f6f7f9;
   }
 
+  /* ORTALANMIŞ ANA CONTAINER */
+  .page-container {
+    max-width: 960px;      /* masaüstünde dar ve ortalı görünüm */
+    margin: 0 auto;
+  }
+
   h1 {
     text-align: center;
     font-size: 22px;
@@ -201,30 +207,36 @@
       font-size: 14px;
       padding: 14px;
     }
+
+    .page-container {
+      max-width: 100%;
+    }
   }
 </style>
 </head>
 
 <body>
 
-<h1>Günlük Bonuslar</h1>
-<div class="subtitle">Filtrele · Sadece ilgilendiğin bonusları listele</div>
+<div class="page-container">
+  <h1>Günlük Bonuslar</h1>
+  <div class="subtitle">Filtrele · Sadece ilgilendiğin bonusları listele</div>
 
-<!-- FİLTRELER -->
-<div class="filter-row">
-  <div class="filter-pill active" data-filter="tum">Tümü</div>
-  <div class="filter-pill" data-filter="yatirim-sartsiz">Yatırım şartsız</div>
-  <div class="filter-pill" data-filter="cevrim-sartsiz">Çevrim şartsız</div>
-  <div class="filter-pill" data-filter="dusuk-cevrim">Düşük çevrimli</div>
-  <div class="filter-pill" data-filter="hosgeldin">Hoş geldin bonusu</div>
-  <div class="filter-pill" data-filter="freebet">Freebet</div>
-  <div class="filter-pill" data-filter="freespin">Freespin</div>
-  <div class="filter-pill" data-filter="deneme-bonusu">Deneme bonusu</div>
-  <div class="filter-pill" data-filter="kayip-bonusu">Kayıp bonusu</div>
+  <!-- FİLTRELER -->
+  <div class="filter-row">
+    <div class="filter-pill active" data-filter="tum">Tümü</div>
+    <div class="filter-pill" data-filter="yatirim-sartsiz">Yatırım şartsız</div>
+    <div class="filter-pill" data-filter="cevrim-sartsiz">Çevrim şartsız</div>
+    <div class="filter-pill" data-filter="dusuk-cevrim">Düşük çevrimli</div>
+    <div class="filter-pill" data-filter="hosgeldin">Hoş geldin bonusu</div>
+    <div class="filter-pill" data-filter="freebet">Freebet</div>
+    <div class="filter-pill" data-filter="freespin">Freespin</div>
+    <div class="filter-pill" data-filter="deneme-bonusu">Deneme bonusu</div>
+    <div class="filter-pill" data-filter="kayip-bonusu">Kayıp bonusu</div>
+  </div>
+
+  <div id="bonus-wrapper"></div>
+  <div id="empty" class="empty" style="display:none;">Bu filtreye uygun bonus bulunamadı.</div>
 </div>
-
-<div id="bonus-wrapper"></div>
-<div id="empty" class="empty" style="display:none;">Bu filtreye uygun bonus bulunamadı.</div>
 
 <script>
 const TAG_LABELS = {
