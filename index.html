@@ -62,24 +62,19 @@
     box-shadow: 0 2px 6px rgba(0,0,0,.06);
   }
 
-  /* BONUS KART (MASAÜSTÜ) */
+  /* BONUS KART – MASAÜSTÜ */
   .bonus-item {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 14px 0;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
     border-bottom: 1px solid #ddd;
   }
   .bonus-item:last-child {
     border-bottom: none;
   }
 
-  .bonus-top {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
+  /* LOGO ALANI */
   .bonus-left {
     min-width: 160px;
     display: flex;
@@ -90,14 +85,18 @@
   .site-logo {
     width: 140px;
     height: 44px;
-    object-fit: contain;
+    object-fit: contain;      /* 1xbet görünümünü bozmuyor */
     background: #f3f4f6;
     border-radius: 999px;
     padding: 6px 12px;
     display: block;
   }
 
-  .bonus-center { flex: 1; }
+  /* METİN ALANI */
+  .bonus-center {
+    flex: 1;
+    min-width: 0;
+  }
 
   .bonus-title {
     font-size: 15px;
@@ -126,14 +125,18 @@
     color: #374151;
   }
 
-  .bonus-bottom {
+  /* CTA ALANI */
+  .bonus-right {
+    min-width: 120px;
     text-align: right;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .btn {
     background: #16a34a;
     color: white;
-    padding: 8px 10px;
+    padding: 8px 12px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
@@ -154,36 +157,38 @@
   /* ----------------------------- */
   @media (max-width: 600px) {
 
-    /* LOGO + METİN ÜSTTE */
-    .bonus-top {
-      flex-direction: column;
+    .bonus-item {
+      flex-wrap: wrap;          /* Üst satır: logo+metin, alt satır: CTA */
       align-items: flex-start;
-      width: 100%;
       gap: 10px;
     }
 
     .bonus-left {
-      width: 100%;
+      min-width: auto;
       justify-content: flex-start;
     }
 
     .site-logo {
-      width: 160px;
-      height: auto;
-      padding: 8px 16px;
+      width: 130px;
+      height: 40px;
+      padding: 6px 12px;
     }
 
-    /* CTA ALTA, TAM GENİŞLİK */
-    .bonus-bottom {
-      width: 100%;
+    .bonus-center {
+      flex: 1 1 auto;
+    }
+
+    .bonus-right {
+      flex: 0 0 100%;           /* CTA’yı alt satıra al */
       margin-top: 4px;
       text-align: left;
+      justify-content: flex-start;
     }
 
     .btn {
       width: 100%;
-      padding: 12px;
       text-align: center;
+      padding: 12px;
       font-size: 13px;
     }
   }
@@ -347,22 +352,20 @@ function renderBonuses() {
     item.className = "bonus-item";
 
     item.innerHTML = `
-      <div class="bonus-top">
-        <div class="bonus-left">
-          <img class="site-logo"
-               src="${b.logoUrl}"
-               alt="${b.site}"
-               onerror="this.style.visibility='hidden';">
-        </div>
-
-        <div class="bonus-center">
-          <div class="bonus-title">${b.title}</div>
-          <div class="bonus-detail">${b.detail}</div>
-          <div class="bonus-tags">${tagsHtml}</div>
-        </div>
+      <div class="bonus-left">
+        <img class="site-logo"
+             src="${b.logoUrl}"
+             alt="${b.site}"
+             onerror="this.style.visibility='hidden';">
       </div>
 
-      <div class="bonus-bottom">
+      <div class="bonus-center">
+        <div class="bonus-title">${b.title}</div>
+        <div class="bonus-detail">${b.detail}</div>
+        <div class="bonus-tags">${tagsHtml}</div>
+      </div>
+
+      <div class="bonus-right">
         <button class="btn" onclick="window.location.href='${b.url}'">Sitede Kullan</button>
       </div>
     `;
@@ -370,7 +373,7 @@ function renderBonuses() {
     section.appendChild(item);
   });
 
-  wrapper.appendChild(section);
+    wrapper.appendChild(section);
 }
 
 /* Filtre tıklamaları */
