@@ -62,19 +62,19 @@
     box-shadow: 0 2px 6px rgba(0,0,0,.06);
   }
 
-  /* BONUS KART – MASAÜSTÜ */
+  /* BONUS KART — MASAÜSTÜ */
   .bonus-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 0;
+    padding: 14px 0;
     border-bottom: 1px solid #ddd;
   }
   .bonus-item:last-child {
     border-bottom: none;
   }
 
-  /* LOGO ALANI */
+  /* LOGO */
   .bonus-left {
     min-width: 160px;
     display: flex;
@@ -85,17 +85,16 @@
   .site-logo {
     width: 140px;
     height: 44px;
-    object-fit: contain;      /* 1xbet görünümünü bozmuyor */
+    object-fit: contain;
     background: #f3f4f6;
     border-radius: 999px;
     padding: 6px 12px;
     display: block;
   }
 
-  /* METİN ALANI */
+  /* METİN */
   .bonus-center {
     flex: 1;
-    min-width: 0;
   }
 
   .bonus-title {
@@ -125,9 +124,9 @@
     color: #374151;
   }
 
-  /* CTA ALANI */
+  /* CTA — MASAÜSTÜ */
   .bonus-right {
-    min-width: 120px;
+    min-width: 140px;
     text-align: right;
     display: flex;
     justify-content: flex-end;
@@ -136,13 +135,20 @@
   .btn {
     background: #16a34a;
     color: white;
-    padding: 8px 12px;
-    border-radius: 8px;
+    padding: 12px 22px;
+    border-radius: 10px;
     border: none;
     cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: all .15s ease;
+  }
+
+  .btn:hover {
+    background: #15803d;
+    transform: translateY(-1px);
   }
 
   .empty {
@@ -157,29 +163,34 @@
   /* ----------------------------- */
   @media (max-width: 600px) {
 
+    /* Üst satır kırılmadan logo + metin */
     .bonus-item {
-      flex-wrap: wrap;          /* Üst satır: logo+metin, alt satır: CTA */
+      flex-wrap: wrap;
       align-items: flex-start;
       gap: 10px;
     }
 
     .bonus-left {
-      min-width: auto;
+      width: 100px;
+      min-width: 100px;
       justify-content: flex-start;
     }
 
     .site-logo {
-      width: 130px;
-      height: 40px;
-      padding: 6px 12px;
+      width: 100px;
+      height: 34px;
+      padding: 6px 10px;
     }
 
+    /* Metin LOGO'NUN SAĞINDA, tek parça */
     .bonus-center {
-      flex: 1 1 auto;
+      flex: 1;
+      min-width: 0;
     }
 
+    /* CTA ALTA */
     .bonus-right {
-      flex: 0 0 100%;           /* CTA’yı alt satıra al */
+      flex: 0 0 100%;
       margin-top: 4px;
       text-align: left;
       justify-content: flex-start;
@@ -187,9 +198,8 @@
 
     .btn {
       width: 100%;
-      text-align: center;
-      padding: 12px;
-      font-size: 13px;
+      font-size: 14px;
+      padding: 14px;
     }
   }
 </style>
@@ -230,7 +240,6 @@ const TAG_LABELS = {
 
 /* BONUS VERİLERİ */
 const bonuses = [
-  /* 1XBET */
   {
     site: "1xbet",
     logoUrl: "https://raw.githubusercontent.com/thexprojects/filtre-bonus/main/logos/1xbet.png",
@@ -248,7 +257,6 @@ const bonuses = [
     tags: ["kayip-bonusu", "cevrim-sartsiz"]
   },
 
-  /* CASINOMHUB */
   {
     site: "casinomhub",
     logoUrl: "https://raw.githubusercontent.com/thexprojects/filtre-bonus/main/logos/casinohub.png",
@@ -266,7 +274,6 @@ const bonuses = [
     tags: ["kayip-bonusu", "cevrim-sartsiz"]
   },
 
-  /* LIGOBET */
   {
     site: "ligobet",
     logoUrl: "https://raw.githubusercontent.com/thexprojects/filtre-bonus/main/logos/ligobet.png",
@@ -276,7 +283,6 @@ const bonuses = [
     tags: ["cevrim-sartsiz", "deneme-bonusu"]
   },
 
-  /* MAXWIN */
   {
     site: "maxwin",
     logoUrl: "https://raw.githubusercontent.com/thexprojects/filtre-bonus/main/logos/maxwin.png",
@@ -286,7 +292,6 @@ const bonuses = [
     tags: ["yatirim-sartsiz", "cevrim-sartsiz", "deneme-bonusu"]
   },
 
-  /* MOBILBAHIS */
   {
     site: "mobilbahis",
     logoUrl: "https://raw.githubusercontent.com/thexprojects/filtre-bonus/main/logos/mobilbahis.png",
@@ -296,7 +301,6 @@ const bonuses = [
     tags: ["yatirim-sartsiz", "freespin"]
   },
 
-  /* OTOBET */
   {
     site: "otobet",
     logoUrl: "https://raw.githubusercontent.com/thexprojects/filtre-bonus/main/logos/otobet.png",
@@ -306,7 +310,6 @@ const bonuses = [
     tags: ["yatirim-sartsiz", "cevrim-sartsiz", "deneme-bonusu"]
   },
 
-  /* ROKUBET */
   {
     site: "rokubet",
     logoUrl: "https://raw.githubusercontent.com/thexprojects/filtre-bonus/main/logos/rokubet.png",
@@ -316,7 +319,6 @@ const bonuses = [
     tags: ["yatirim-sartsiz", "freespin"]
   },
 
-  /* TIPOBET */
   {
     site: "tipobet",
     logoUrl: "https://raw.githubusercontent.com/thexprojects/filtre-bonus/main/logos/tipobet.png",
@@ -373,14 +375,14 @@ function renderBonuses() {
     section.appendChild(item);
   });
 
-    wrapper.appendChild(section);
+  wrapper.appendChild(section);
 }
 
 /* Filtre tıklamaları */
 document.querySelectorAll(".filter-pill").forEach(pill => {
   pill.addEventListener("click", () => {
     document.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
-    pill.classList.add("active");
+    pill.classList.add("active"));
     currentFilter = pill.dataset.filter;
     renderBonuses();
   });
