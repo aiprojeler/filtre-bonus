@@ -183,7 +183,6 @@
 <div id="empty" class="empty" style="display:none;">Bu filtreye uygun bonus bulunamadı.</div>
 
 <script>
-
 const LOGO_BASE = "https://raw.githubusercontent.com/thexprojects/filtre-bonus/main/logos/";
 
 const TAG_LABELS = {
@@ -197,12 +196,12 @@ const TAG_LABELS = {
   "kayip-bonusu": "Kayıp bonusu"
 };
 
-/* BONUS VERİLERİ — Tamamı senin verdiğin şekilde */
+/* BONUS VERİLERİ (logo alanı eklendi) */
 const bonuses = [
-
   /* 1XBET */
   {
     site: "1xbet",
+    logo: "1xbet.png",
     title: "55.000 TL + 150 FS Hoş Geldin Bonusu",
     detail: "İlk 4 para yatırma işleminize özel teklif!",
     url: "https://1xbet.com",
@@ -210,6 +209,7 @@ const bonuses = [
   },
   {
     site: "1xbet",
+    logo: "1xbet.png",
     title: "%25 Net Kayıp Bonusu",
     detail: "Tüm alanlara baremsiz kayıp bonusu ayrıcalığı!",
     url: "https://1xbet.com",
@@ -218,14 +218,16 @@ const bonuses = [
 
   /* CASINOMHUB */
   {
-    site: "casinohub",
+    site: "casinomhub",
+    logo: "casinohub.png",   // dosya adın casinohub.png ise
     title: "%375 Hoş Geldin Bonusu",
     detail: "Islak başlangıçlar seni bekliyor!",
     url: "https://casinomhub.com",
     tags: ["hosgeldin", "dusuk-cevrim"]
   },
   {
-    site: "casinohub",
+    site: "casinomhub",
+    logo: "casinohub.png",
     title: "%30'a varan Kayıp Bonusu",
     detail: "Yüksek oranlı kayıp bonusu ile masadan erken kalkmak yok!",
     url: "https://casinomhub.com",
@@ -235,6 +237,7 @@ const bonuses = [
   /* LIGOBET */
   {
     site: "ligobet",
+    logo: "ligobet.png",
     title: "750 TL Deneme Bonusu",
     detail: "Ücretsiz başlangıç teklifi ile hemen oyna!",
     url: "https://ligobet.com",
@@ -244,6 +247,7 @@ const bonuses = [
   /* MAXWIN */
   {
     site: "maxwin",
+    logo: "maxwin.png",
     title: "Üye Olan Herkese 300 TL Hediye",
     detail: "Tüm alanlarda geçerli nakit bonus!",
     url: "https://maxwin.com",
@@ -253,6 +257,7 @@ const bonuses = [
   /* MOBILBAHIS */
   {
     site: "mobilbahis",
+    logo: "mobilbahis.png",
     title: "Yeni Üyelere 100 Freespin",
     detail: "Ücretsiz çevirme hakkı ile kazan!",
     url: "https://mobilbahis.com",
@@ -262,15 +267,17 @@ const bonuses = [
   /* OTOBET */
   {
     site: "otobet",
+    logo: "otobet.png",
     title: "800 TL Deneme Bonusu",
     detail: "Nakit bonus anında hesabında!",
     url: "https://otobet.com",
     tags: ["yatirim-sartsiz", "cevrim-sartsiz", "deneme-bonusu"]
   },
 
-  /* ROCUBET */
+  /* ROKUBET */
   {
     site: "rokubet",
+    logo: "rokubet.png",
     title: "Herkese 335 Freespin Hediye",
     detail: "İlk üyeliğine özel bedava çevir!",
     url: "https://rokubet.com",
@@ -280,6 +287,7 @@ const bonuses = [
   /* TIPOBET */
   {
     site: "tipobet",
+    logo: "tipobet.png",
     title: "Yeni Üyelere 750 TL Freebet",
     detail: "Yapacağın ilk kupon ücretsiz!",
     url: "https://tipobet.com",
@@ -304,7 +312,7 @@ function renderBonuses() {
   section.className = "section";
 
   filtered.forEach(b => {
-    const logoUrl = LOGO_BASE + b.site.toLowerCase() + ".png";
+    const logoUrl = LOGO_BASE + b.logo;
 
     const tagsHtml = b.tags
       .map(t => `<span class="tag-pill">${TAG_LABELS[t]}</span>`)
@@ -315,15 +323,14 @@ function renderBonuses() {
 
     item.innerHTML = `
       <div class="bonus-left">
-        <img class="site-logo" src="${logoUrl}" alt="${b.site}">
+        <img class="site-logo" src="${logoUrl}" alt="${b.site}"
+             onerror="this.style.visibility='hidden';">
       </div>
-
       <div class="bonus-center">
         <div class="bonus-title">${b.title}</div>
         <div class="bonus-detail">${b.detail}</div>
         <div class="bonus-tags">${tagsHtml}</div>
       </div>
-
       <div class="bonus-right">
         <button class="btn" onclick="window.location.href='${b.url}'">Sitede Kullan</button>
       </div>
