@@ -163,7 +163,7 @@
   /* ----------------------------- */
   @media (max-width: 600px) {
 
-    /* Üst satır kırılmadan logo + metin */
+    /* Üst satır: logo + metin, kırılmadan */
     .bonus-item {
       flex-wrap: wrap;
       align-items: flex-start;
@@ -182,7 +182,7 @@
       padding: 6px 10px;
     }
 
-    /* Metin LOGO'NUN SAĞINDA, tek parça */
+    /* Metin LOGO'NUN SAĞINDA, tek blok */
     .bonus-center {
       flex: 1;
       min-width: 0;
@@ -382,7 +382,7 @@ function renderBonuses() {
 document.querySelectorAll(".filter-pill").forEach(pill => {
   pill.addEventListener("click", () => {
     document.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
-    pill.classList.add("active"));
+    pill.classList.add("active");
     currentFilter = pill.dataset.filter;
     renderBonuses();
   });
