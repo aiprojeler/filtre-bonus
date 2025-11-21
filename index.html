@@ -62,16 +62,22 @@
     box-shadow: 0 2px 6px rgba(0,0,0,.06);
   }
 
-  /* BONUS KART */
+  /* BONUS KART – ÜSTTE LOGO+METİN, ALTA CTA */
   .bonus-item {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 0;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 0;
     border-bottom: 1px solid #ddd;
   }
   .bonus-item:last-child {
     border-bottom: none;
+  }
+
+  .bonus-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   /* LOGO ALANI – GENİŞ, YATAY, PREMIUM */
@@ -83,21 +89,23 @@
   }
 
   .site-logo {
-    width: 140px;           /* daha geniş logo alanı */
-    height: 44px;           /* hafif yatay oran */
-    object-fit: contain;    /* logoyu bozmadan sığdır */
-    background: #f3f4f6;    /* soft arka plan */
-    border-radius: 999px;   /* kapsül görünüm */
-    padding: 6px 12px;      /* nefes aldır */
+    width: 140px;
+    height: 44px;
+    object-fit: contain;
+    background: #f3f4f6;
+    border-radius: 999px;
+    padding: 6px 12px;
     display: block;
   }
 
-  .bonus-center { flex: 1; }
+  .bonus-center {
+    flex: 1;
+  }
 
   .bonus-title {
     font-size: 14px;
     font-weight: 700;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
     color: #111;
   }
 
@@ -121,11 +129,8 @@
     color: #374151;
   }
 
-  .bonus-right {
-    min-width: 110px;
+  .bonus-bottom {
     text-align: right;
-    display: flex;
-    justify-content: flex-end;
   }
 
   .btn {
@@ -148,17 +153,17 @@
   }
 
   @media (max-width: 600px) {
-    .bonus-item {
-      flex-direction: column;
+    .bonus-top {
       align-items: flex-start;
     }
     .bonus-left {
+      min-width: 140px;
       justify-content: flex-start;
-      margin-bottom: 6px;
+      margin-bottom: 2px;
     }
-    .bonus-right {
+    .bonus-bottom {
       width: 100%;
-      justify-content: flex-start;
+      text-align: left;
     }
     .btn {
       width: 100%;
@@ -325,18 +330,20 @@ function renderBonuses() {
     item.className = "bonus-item";
 
     item.innerHTML = `
-      <div class="bonus-left">
-        <img class="site-logo"
-             src="${b.logoUrl}"
-             alt="${b.site}"
-             onerror="this.style.visibility='hidden';">
+      <div class="bonus-top">
+        <div class="bonus-left">
+          <img class="site-logo"
+               src="${b.logoUrl}"
+               alt="${b.site}"
+               onerror="this.style.visibility='hidden';">
+        </div>
+        <div class="bonus-center">
+          <div class="bonus-title">${b.title}</div>
+          <div class="bonus-detail">${b.detail}</div>
+          <div class="bonus-tags">${tagsHtml}</div>
+        </div>
       </div>
-      <div class="bonus-center">
-        <div class="bonus-title">${b.title}</div>
-        <div class="bonus-detail">${b.detail}</div>
-        <div class="bonus-tags">${tagsHtml}</div>
-      </div>
-      <div class="bonus-right">
+      <div class="bonus-bottom">
         <button class="btn" onclick="window.location.href='${b.url}'">Sitede Kullan</button>
       </div>
     `;
