@@ -74,19 +74,22 @@
     border-bottom: none;
   }
 
+  /* LOGO ALANI – GENİŞ, YATAY, PREMIUM */
   .bonus-left {
-    min-width: 64px;
+    min-width: 160px;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   .site-logo {
-    width: 44px;
-    height: 44px;
-    object-fit: contain;
-    border-radius: 12px;
-    background: #f3f4f6;
-    padding: 4px;
+    width: 140px;           /* daha geniş logo alanı */
+    height: 44px;           /* hafif yatay oran */
+    object-fit: contain;    /* logoyu bozmadan sığdır */
+    background: #f3f4f6;    /* soft arka plan */
+    border-radius: 999px;   /* kapsül görünüm */
+    padding: 6px 12px;      /* nefes aldır */
+    display: block;
   }
 
   .bonus-center { flex: 1; }
@@ -148,6 +151,10 @@
     .bonus-item {
       flex-direction: column;
       align-items: flex-start;
+    }
+    .bonus-left {
+      justify-content: flex-start;
+      margin-bottom: 6px;
     }
     .bonus-right {
       width: 100%;
