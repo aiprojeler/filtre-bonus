@@ -17,7 +17,7 @@
 
   /* ORTALANMIŞ ANA CONTAINER */
   .page-container {
-    max-width: 960px;      /* masaüstünde dar ve ortalı görünüm */
+    max-width: 960px;
     margin: 0 auto;
   }
 
@@ -96,6 +96,13 @@
     border-radius: 999px;
     padding: 6px 12px;
     display: block;
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+
+  .site-logo:hover {
+    transform: scale(1.06);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
   }
 
   /* METİN */
@@ -130,7 +137,7 @@
     color: #374151;
   }
 
-  /* CTA — MASAÜSTÜ */
+  /* CTA */
   .bonus-right {
     min-width: 140px;
     text-align: right;
@@ -164,12 +171,8 @@
     margin-top: 16px;
   }
 
-  /* ----------------------------- */
-  /*        MOBİL OPTİMİZASYON     */
-  /* ----------------------------- */
+  /* MOBİL */
   @media (max-width: 600px) {
-
-    /* Üst satır: logo + metin, kırılmadan */
     .bonus-item {
       flex-wrap: wrap;
       align-items: flex-start;
@@ -188,13 +191,11 @@
       padding: 6px 10px;
     }
 
-    /* Metin LOGO'NUN SAĞINDA, tek blok */
     .bonus-center {
       flex: 1;
       min-width: 0;
     }
 
-    /* CTA ALTA */
     .bonus-right {
       flex: 0 0 100%;
       margin-top: 4px;
@@ -370,6 +371,7 @@ function renderBonuses() {
         <img class="site-logo"
              src="${b.logoUrl}"
              alt="${b.site}"
+             onclick="window.open('${b.url}', '_blank')"
              onerror="this.style.visibility='hidden';">
       </div>
 
@@ -380,7 +382,9 @@ function renderBonuses() {
       </div>
 
       <div class="bonus-right">
-        <button class="btn" onclick="window.location.href='${b.url}'">Sitede Kullan</button>
+        <button class="btn" onclick="window.open('${b.url}', '_blank')">
+          Sitede Kullan
+        </button>
       </div>
     `;
 
