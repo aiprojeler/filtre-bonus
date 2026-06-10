@@ -1,493 +1,276 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>Günlük Bonuslar</title>
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bonusum Gelsin</title>
 
 <style>
-  * { box-sizing: border-box; }
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(135deg,#111827,#1f2937);
+  color:#fff;
+}
+.page{
+  min-height:100vh;
+  padding:20px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.container{
+  width:100%;
+  max-width:980px;
+}
+.header{
+  text-align:center;
+  margin-bottom:24px;
+}
+.header h1{
+  margin:0 0 8px;
+  font-size:34px;
+  font-weight:950;
+}
+.header p{
+  margin:0;
+  color:#d1d5db;
+  font-size:15px;
+  font-weight:700;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+.card{
+  display:block;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:24px;
+  padding:18px 14px;
+  text-align:center;
+  box-shadow:0 14px 35px rgba(0,0,0,.28);
+  backdrop-filter:blur(12px);
+  transition:.25s;
+  text-decoration:none;
+  color:#fff;
+  cursor:pointer;
+}
+.card:hover{
+  transform:translateY(-6px);
+  border-color:#ec4899;
+}
+.logo{
+  height:64px;
+  border-radius:999px;
+  background:#050505;
+  border:1px solid #374151;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 16px;
+  margin-bottom:14px;
+}
+.logo img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:10px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:rgba(34,197,94,.16);
+  border:1px solid rgba(34,197,94,.5);
+  color:#86efac;
+  font-size:11px;
+  line-height:1;
+  font-weight:950;
+}
+.site-name{
+  font-size:19px;
+  font-weight:950;
+  margin-bottom:8px;
+}
+.bonus{
+  font-size:17px;
+  line-height:1.15;
+  font-weight:950;
+  color:#f9a8d4;
+  margin-bottom:16px;
+}
+.btn{
+  display:block;
+  width:100%;
+  padding:14px 10px;
+  border-radius:15px;
+  background:#ec4899;
+  color:#fff;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:950;
+  position:relative;
+  overflow:hidden;
+}
+.btn:before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:70%;
+  height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+  animation:shine 2.8s infinite;
+}
+.footer{
+  margin-top:28px;
+  text-align:center;
+  color:#cbd5e1;
+  font-size:13px;
+}
+.footer a{
+  color:#f9a8d4;
+  text-decoration:none;
+  font-weight:900;
+}
+@keyframes shine{
+  100%{left:140%}
+}
 
-  body {
-    font-family: system-ui, sans-serif;
-    margin: 0;
-    padding: 16px;
-    background: #f6f7f9;
+@media(max-width:760px){
+  .page{
+    padding:14px 10px 20px;
+    align-items:flex-start;
   }
-
-  /* ORTALANMIŞ ANA CONTAINER */
-  .page-container {
-    max-width: 960px;
-    margin: 0 auto;
+  .header{
+    margin-bottom:14px;
   }
-
-  h1 {
-    text-align: center;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 6px;
+  .header h1{
+    font-size:27px;
   }
-
-  .subtitle {
-    text-align: center;
-    font-size: 13px;
-    color: #666;
-    margin-bottom: 14px;
+  .header p{
+    font-size:13px;
   }
-
-  /* FİLTRELER */
-  .filter-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 16px;
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
   }
-
-  .filter-pill {
-    padding: 6px 12px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 999px;
-    cursor: pointer;
-    font-size: 13px;
-    white-space: nowrap;
+  .card{
+    min-height:218px;
+    padding:13px 9px;
+    border-radius:20px;
   }
-
-  .filter-pill.active {
-    background: #16a34a;
-    color: #fff;
-    border-color: #16a34a;
+  .logo{
+    height:54px;
+    padding:8px 10px;
+    margin-bottom:10px;
   }
-
-  /* ANA KART */
-  .section {
-    background: #fff;
-    padding: 12px;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,.06);
+  .badge{
+    font-size:9px;
+    padding:6px 8px;
+    margin-bottom:8px;
   }
-
-  /* BONUS KART — MASAÜSTÜ */
-  .bonus-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 0;
-    border-bottom: 1px solid #ddd;
+  .site-name{
+    font-size:15px;
+    margin-bottom:6px;
   }
-  .bonus-item:last-child {
-    border-bottom: none;
+  .bonus{
+    min-height:38px;
+    font-size:14px;
+    margin-bottom:10px;
   }
-
-  /* LOGO */
-  .bonus-left {
-    min-width: 160px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .btn{
+    padding:13px 6px;
+    font-size:12px;
+    border-radius:13px;
   }
+}
 
-  .site-logo {
-    width: 140px;
-    height: 44px;
-    object-fit: contain;
-    background: #f3f4f6;
-    border-radius: 999px;
-    padding: 6px 12px;
-    display: block;
-    cursor: pointer;
-    transition: all .2s ease;
+@media(max-width:380px){
+  .grid{
+    gap:8px;
   }
-
-  .site-logo:hover {
-    transform: scale(1.06);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+  .card{
+    min-height:210px;
   }
-
-  /* METİN */
-  .bonus-center {
-    flex: 1;
+  .logo{
+    height:50px;
   }
-
-  .bonus-title {
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 5px;
-    color: #111;
+  .site-name{
+    font-size:14px;
   }
-
-  .bonus-detail {
-    color: #666;
-    font-size: 12px;
-    margin-bottom: 6px;
+  .bonus{
+    font-size:13px;
   }
-
-  .bonus-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-
-  .tag-pill {
-    font-size: 10px;
-    padding: 3px 7px;
-    border-radius: 999px;
-    background: #f3f4f6;
-    color: #374151;
-  }
-
-  /* CTA */
-  .bonus-right {
-    min-width: 140px;
-    text-align: right;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .btn {
-    background: #16a34a;
-    color: white;
-    padding: 12px 22px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 700;
-    white-space: nowrap;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    transition: all .15s ease;
-  }
-
-  .btn:hover {
-    background: #15803d;
-    transform: translateY(-1px);
-  }
-
-  .empty {
-    text-align: center;
-    font-size: 13px;
-    color: #777;
-    margin-top: 16px;
-  }
-
-  /* MOBİL */
-  @media (max-width: 600px) {
-    .bonus-item {
-      flex-wrap: wrap;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .bonus-left {
-      width: 100px;
-      min-width: 100px;
-      justify-content: flex-start;
-    }
-
-    .site-logo {
-      width: 100px;
-      height: 34px;
-      padding: 6px 10px;
-    }
-
-    .bonus-center {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .bonus-right {
-      flex: 0 0 100%;
-      margin-top: 4px;
-      text-align: left;
-      justify-content: flex-start;
-    }
-
-    .btn {
-      width: 100%;
-      font-size: 14px;
-      padding: 14px;
-    }
-
-    .page-container {
-      max-width: 100%;
-    }
-  }
+}
 </style>
 </head>
 
 <body>
+<div class="page">
+  <div class="container">
 
-<div class="page-container">
-  <h1>Günlük Bonuslar</h1>
-  <div class="subtitle">Filtrele · Sadece ilgilendiğin bonusları listele</div>
+    <header class="header">
+      <h1>Bonusum Gelsin</h1>
+      <p>4 güvenilir siteden 1.000 TL deneme bonusu</p>
+    </header>
 
-  <!-- FİLTRELER -->
-  <div class="filter-row">
-    <div class="filter-pill active" data-filter="tum">Tümü</div>
-    <div class="filter-pill" data-filter="yatirim-sartsiz">Yatırım şartsız</div>
-    <div class="filter-pill" data-filter="cevrim-sartsiz">Çevrim şartsız</div>
-    <div class="filter-pill" data-filter="dusuk-cevrim">Düşük çevrimli</div>
-    <div class="filter-pill" data-filter="hosgeldin">Hoş geldin bonusu</div>
-    <div class="filter-pill" data-filter="freebet">Freebet</div>
-    <div class="filter-pill" data-filter="freespin">Freespin</div>
-    <div class="filter-pill" data-filter="deneme-bonusu">Deneme bonusu</div>
-    <div class="filter-pill" data-filter="kayip-bonusu">Kayıp bonusu</div>
+    <main class="grid">
+
+      <a class="card" href="https://shorx.one/bkutusugp" target="_blank" rel="nofollow noopener">
+        <div class="logo">
+          <img src="https://raw.githubusercontent.com/aiprojeler/bonusum-gelsin/main/logos/grandpashabet.png" alt="Grandpashabet">
+        </div>
+        <div class="badge">GÜVENİLİR SİTE</div>
+        <div class="site-name">Grandpashabet</div>
+        <div class="bonus">1.000 TL DENEME BONUSU</div>
+        <span class="btn">BONUSU AL</span>
+      </a>
+
+      <a class="card" href="https://t.ly/Pzgirbonuskutusu" target="_blank" rel="nofollow noopener">
+        <div class="logo">
+          <img src="https://raw.githubusercontent.com/aiprojeler/bonusum-gelsin/main/logos/palazzobet.png" alt="Palazzobet">
+        </div>
+        <div class="badge">GÜVENİLİR SİTE</div>
+        <div class="site-name">Palazzobet</div>
+        <div class="bonus">1.000 TL DENEME BONUSU</div>
+        <span class="btn">BONUSU AL</span>
+      </a>
+
+      <a class="card" href="https://t.ly/bonuskutusubahibom" target="_blank" rel="nofollow noopener">
+        <div class="logo">
+          <img src="https://raw.githubusercontent.com/aiprojeler/bonusum-gelsin/main/logos/bahibom.png" alt="Bahibom">
+        </div>
+        <div class="badge">GÜVENİLİR SİTE</div>
+        <div class="site-name">Bahibom</div>
+        <div class="bonus">1.000 TL DENEME BONUSU</div>
+        <span class="btn">BONUSU AL</span>
+      </a>
+
+      <a class="card" href="https://t.ly/bonuskutusubwild" target="_blank" rel="nofollow noopener">
+        <div class="logo">
+          <img src="https://raw.githubusercontent.com/aiprojeler/bonusum-gelsin/main/logos/betwild.png" alt="Betwild">
+        </div>
+        <div class="badge">GÜVENİLİR SİTE</div>
+        <div class="site-name">Betwild</div>
+        <div class="bonus">1.000 TL DENEME BONUSU</div>
+        <span class="btn">BONUSU AL</span>
+      </a>
+
+    </main>
+
+    <footer class="footer">
+      <a href="https://t.me/clickprojects" target="_blank" rel="nofollow noopener">
+        Telegram: @clickprojects
+      </a>
+    </footer>
+
   </div>
-
-  <div id="bonus-wrapper"></div>
-  <div id="empty" class="empty" style="display:none;">Bu filtreye uygun bonus bulunamadı.</div>
 </div>
-
-<script>
-const TAG_LABELS = {
-  "yatirim-sartsiz": "Yatırım şartsız",
-  "cevrim-sartsiz": "Çevrim şartsız",
-  "dusuk-cevrim": "Düşük çevrimli",
-  "hosgeldin": "Hoş geldin",
-  "freebet": "Freebet",
-  "freespin": "Freespin",
-  "deneme-bonusu": "Deneme bonusu",
-  "kayip-bonusu": "Kayıp bonusu"
-};
-
-/* BONUS VERİLERİ */
-const bonuses = [
-  /* TIPOBET REKLAMLARI (KALACAK) */
-  {
-    site: "tipobet",
-    logoUrl: "https://raw.githubusercontent.com/thexprojects/filtre-bonus/main/logos/tipobet.png",
-    title: "Yeni Üyelere 750 TL Freebet",
-    detail: "Yapacağın ilk kupon ücretsiz!",
-    url: "https://goo.su/Tipobet",
-    tags: ["freebet", "yatirim-sartsiz"]
-  },
-
-  /* XSLOT */
-  {
-    site: "xslot",
-    logoUrl: "logos/xslot.png",
-    title: "Yeni Üyelere 1.000 Freespin",
-    detail: "İlk üyeliğine özel 1000 adet ücretsiz çevirme hakkı!",
-    url: "https://cutt.ly/5rNjCZmz",
-    tags: ["freespin", "deneme-bonusu", "cevrim-sartsiz", "yatirim-sartsiz"]
-  },
-  {
-    site: "xslot",
-    logoUrl: "logos/xslot.png",
-    title: "İlk Yatırımına 3.000 TL İade",
-    detail: "%100 nakit iade ile ilk oyununu garantile!",
-    url: "https://cutt.ly/5rNjCZmz",
-    tags: ["hosgeldin", "dusuk-cevrim"]
-  },
-  {
-    site: "xslot",
-    logoUrl: "logos/xslot.png",
-    title: "%200 Nakit Yatırım Bonusu",
-    detail: "Salı, çarşamba, perşembe günlerine özel yatırım bonusu!",
-    url: "https://cutt.ly/5rNjCZmz",
-    tags: ["dusuk-cevrim"]
-  },
-  {
-    site: "xslot",
-    logoUrl: "logos/xslot.png",
-    title: "%20 Çevrim Şartsız Bonus",
-    detail: "Her gün %20 çevrimsiz bonus fırsatı!",
-    url: "https://cutt.ly/5rNjCZmz",
-    tags: ["cevrim-sartsiz"]
-  },
-  {
-    site: "xslot",
-    logoUrl: "logos/xslot.png",
-    title: "%20'ye varan Kayıp Bonusu",
-    detail: "Efsane kayıp bonusu ile oyuna devam et!",
-    url: "https://cutt.ly/5rNjCZmz",
-    tags: ["cevrim-sartsiz", "kayip-bonusu"]
-  },
-
-  /* PRIMEBAHIS */
-  {
-    site: "primebahis",
-    logoUrl: "logos/primebahis.png",
-    title: "%200 Hoş Geldin Bonusu",
-    detail: "Casino oyunlarına özel %200 ekstra başlangıç!",
-    url: "https://primebahis306.com/register/44896",
-    tags: ["hosgeldin"]
-  },
-  {
-    site: "primebahis",
-    logoUrl: "logos/primebahis.png",
-    title: "%10 Çevrimsiz Kripto Bonusu",
-    detail: "Kripto işlemlerin %10 daha değerli!",
-    url: "https://primebahis306.com/register/44896",
-    tags: ["cevrim-sartsiz"]
-  },
-  {
-    site: "primebahis",
-    logoUrl: "logos/primebahis.png",
-    title: "Ertesi Gün 400 Freespin",
-    detail: "Minimum 500 TL yatır, yarına freespin kazan!",
-    url: "https://primebahis306.com/register/44896",
-    tags: ["freespin"]
-  },
-  {
-    site: "primebahis",
-    logoUrl: "logos/primebahis.png",
-    title: "Yeni Üyelere 444 Freespin",
-    detail: "Hemen üye ol, 444 freespin kazan!",
-    url: "https://primebahis306.com/register/44896",
-    tags: ["freespin"]
-  },
-  {
-    site: "primebahis",
-    logoUrl: "logos/primebahis.png",
-    title: "%30'a varan Kayıp Bonusu",
-    detail: "Tüm alanlarda geçerli kayıp bonusu ile oyuna geri dön!",
-    url: "https://primebahis306.com/register/44896",
-    tags: ["kayip-bonusu"]
-  },
-
-  /* MARSBAHIS */
-  {
-    site: "marsbahis",
-    logoUrl: "logos/marsbahis.png",
-    title: "%10 Nakit İade",
-    detail: "Her kaybına anında %10 nakit iade!",
-    url: "https://www.youlink.ink/op3e1wzktl",
-    tags: ["kayip-bonusu"]
-  },
-  {
-    site: "marsbahis",
-    logoUrl: "logos/marsbahis.png",
-    title: "Telegram'a Özel 50 Freespin",
-    detail: "Gates of Mars'a özel 50 çevirme hakkı hediye!",
-    url: "https://www.youlink.ink/op3e1wzktl",
-    tags: ["freespin"]
-  },
-
-  /* HILTONBET */
-  {
-    site: "hiltonbet",
-    logoUrl: "logos/hiltonbet.png",
-    title: "%100 Casino Hoş Geldin Bonusu",
-    detail: "500 TL'ye kadar %100 casino bonusu!",
-    url: "https://www.youlink.ink/j3tovccng7",
-    tags: ["hosgeldin"]
-  },
-  {
-    site: "hiltonbet",
-    logoUrl: "logos/hiltonbet.png",
-    title: "%25 Spor Hoş Geldin Bonusu",
-    detail: "Düşük çevrimli spor hoş geldin bonusu!",
-    url: "https://www.youlink.ink/j3tovccng7",
-    tags: ["dusuk-cevrim", "hosgeldin"]
-  },
-    {
-    site: "hiltonbet",
-    logoUrl: "logos/hiltonbet.png",
-    title: "%25'e varan Kayıp Bonusu",
-    detail: "Muhteşem kayıp bonusu ile heyecan henüz bitmedi!",
-    url: "https://www.youlink.ink/j3tovccng7",
-    tags: ["kayip-bonusu"]
-  },
-
-  /* RESTBET */
-  {
-
-    site: "restbet",
-    logoUrl: "logos/restbet.png",
-    title: "Üye Ol, 100 Freespin Kazan",
-    detail: "Numaranı doğrula, 100 ücretsiz çevirme kazan!",
-    url: "https://cutt.ly/YtjdyZ3H",
-    tags: ["freespin", "deneme-bonusu"]
-  },
-
-  /* BETPAS */
-  {
-    site: "betpas",
-    logoUrl: "logos/betpas.png",
-    title: "Yeni Üyelere 100 Freespin Hediye",
-    detail: "Telefon numaranı onaylat ve 100 freespin kazan!",
-    url: "https://cutt.ly/ytjdpJE5",
-    tags: ["freespin", "deneme-bonusu"]
-  },
-
-  /* ZEGNABET */
-  {
-    site: "zegnabet",
-    logoUrl: "logos/zegnabet.png",
-    title: "Yeni Kullanıcılara 100 Adet Freespin",
-    detail: "Gates of Olympus oyununa özel 100 freespin kazan!",
-    url: "https://cutt.ly/itjdy2kt",
-    tags: ["freespin", "deneme-bonusu"]
-  },
-
-];
-
-let currentFilter = "tum";
-
-function renderBonuses() {
-  const wrapper = document.getElementById("bonus-wrapper");
-  const empty = document.getElementById("empty");
-  wrapper.innerHTML = "";
-
-  const filtered = bonuses.filter(b =>
-    currentFilter === "tum" ? true : b.tags.includes(currentFilter)
-  );
-
-  empty.style.display = filtered.length ? "none" : "block";
-
-  const section = document.createElement("div");
-  section.className = "section";
-
-  filtered.forEach(b => {
-    const tagsHtml = b.tags
-      .map(t => `<span class="tag-pill">${TAG_LABELS[t]}</span>`)
-      .join("");
-
-    const item = document.createElement("div");
-    item.className = "bonus-item";
-
-    item.innerHTML = `
-      <div class="bonus-left">
-        <img class="site-logo"
-             src="${b.logoUrl}"
-             alt="${b.site}"
-             onclick="window.open('${b.url}', '_blank')"
-             onerror="this.style.visibility='hidden';">
-      </div>
-
-      <div class="bonus-center">
-        <div class="bonus-title">${b.title}</div>
-        <div class="bonus-detail">${b.detail}</div>
-        <div class="bonus-tags">${tagsHtml}</div>
-      </div>
-
-      <div class="bonus-right">
-        <button class="btn" onclick="window.open('${b.url}', '_blank')">
-          Sitede Kullan
-        </button>
-      </div>
-    `;
-
-    section.appendChild(item);
-  });
-
-  wrapper.appendChild(section);
-}
-
-/* Filtre tıklamaları */
-document.querySelectorAll(".filter-pill").forEach(pill => {
-  pill.addEventListener("click", () => {
-    document.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
-    pill.classList.add("active");
-    currentFilter = pill.dataset.filter;
-    renderBonuses();
-  });
-});
-
-renderBonuses();
-</script>
-
 </body>
 </html>
